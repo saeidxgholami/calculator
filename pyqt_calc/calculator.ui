@@ -30,7 +30,7 @@
       </widget>
      </item>
      <item row="6" column="2" colspan="2">
-      <widget class="QPushButton" name="equal">
+      <widget class="QPushButton" name="equal_button">
        <property name="enabled">
         <bool>true</bool>
        </property>

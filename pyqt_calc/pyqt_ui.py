@@ -1,6 +1,6 @@
 import sys
 
-from PyQt5 import QtWidgets, uic
+from PyQt5 import QtCore, QtWidgets, uic
 
 
 class Calculator:
@@ -20,6 +20,11 @@ class Ui(QtWidgets.QWidget):
         super(Ui, self).__init__()
         uic.loadUi("calculator.ui", self)
         self.show()
+        self.calculator = Calculator(self.equation_box)
+
+    def keyPressEvent(self, e):
+        if e.key() == QtCore.Qt.Key_Return:
+            self.calculator.calculate()
 
 
 def main():
@@ -28,7 +33,7 @@ def main():
     window = Ui()
     calculater = Calculator(window.equation_box)
 
-    window.equal.clicked.connect(calculater.calculate)
+    window.equal_button.clicked.connect(calculater.calculate)
 
     app.exec_()
 
