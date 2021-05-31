@@ -1,6 +1,6 @@
 # Build calculator application with pysimplegui
+from tkinter import Button
 import PySimpleGUI as sg
-from PySimpleGUI.PySimpleGUI import InputText
 
 sg.theme("DarkAmber")  # Add a touch of color
 # All the stuff inside your window.
@@ -13,9 +13,8 @@ def clear_all(event):
 
 
 def clear_one(event):
-    calcbox = window["inputbox"]
-    box_val = calcbox.get()
-    calcbox.update(value=box_val[:-1])
+    input_value = window["inputbox"].get()
+    window["inputbox"].update(value=input_value[:-1])
 
 
 def on_number(event):
@@ -53,13 +52,18 @@ def on_equal(event):
         calcbox.update(value=e)
 
 
+b = {"size": (7, 2), "button_color": ("black", "#F8F8F8")}
+# bt = {"size": (7, 2), "button_color": ("black", "#F1EABC")}
 layout = [
-    [sg.InputText(key="inputbox")],
-    [sg.Button(item) for item in ["C", "CC", "%", "/"]],
-    [sg.Button(item) for item in ["9", "8", "7", "*"]],
-    [sg.Button(item) for item in ["6", "5", "4", "-"]],
-    [sg.Button(item) for item in ["3", "2", "1", "+"]],
-    [sg.Button(item) for item in ["0", ".", "="]],
+    [sg.InputText(key="inputbox", size=(30, 1), font=("Roboto", 14))],
+    [sg.Button(item, **b) for item in ["C", "CC", "%", "/"]],
+    [sg.Button(item, **b) for item in ["9", "8", "7", "*"]],
+    [sg.Button(item, **b) for item in ["6", "5", "4", "-"]],
+    [sg.Button(item, **b) for item in ["3", "2", "1", "+"]],
+    [
+        [sg.Button(item, **b) for item in ["0", "."]]
+        + [sg.Button("=", size=(20, 2), bind_return_key=True)]
+    ],
 ]
 
 # Create the Window
@@ -70,9 +74,9 @@ while True:
 
     if event == sg.WIN_CLOSED:
         break
-    if event in [str(i) for i in range(9)]:
+    if event in [str(i) for i in range(10)]:
         on_number(event)
-    if event in ["+", "-", "*", "/", "%"]:
+    if event in ["+", "-", "*", "/", "%", "."]:
         on_operator(event)
     if event == "=":
         on_equal(event)
